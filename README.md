@@ -1,0 +1,2 @@
+# edu
+For devops trainings
