@@ -1,5 +1,5 @@
 # Proxy PHP requests to the FastCGI backend
-# Will be adopted for php-fpm
+# Will be reconfigured for php-fpm
 location ~ \.php$ {
     # Don't bother PHP if the file doesn't exist, return the built in
     # 404 page (this also avoids "No input file specified" error pages)
