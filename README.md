@@ -1,2 +1,0 @@
-# sergii
-puppet environment
