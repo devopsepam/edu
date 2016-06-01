@@ -1,0 +1,17 @@
+{
+  "CHANGELOG.md": "7337647d5455cb28b817bfe1ead513dd",
+  "LICENSE": "fc27fd7d224a7ef74929c66c67e6ab21",
+  "README.md": "4f6d238d49ac08334c40ff582931ab93",
+  "files/php-to-index.conf.inc": "fbf56e0b2143df6759a50f5b0416d2da",
+  "files/php.conf.inc": "021b2aa24aa4edbcff23997106673ed7",
+  "manifests/file.pp": "c389e9cfe166bbf4d74c630875462e46",
+  "manifests/init.pp": "f6232586e3227308727f85986b897ff6",
+  "manifests/params.pp": "358ddbcb5888ab1d7884bbbd62338508",
+  "metadata.json": "efe6831feacc7881009cce81db339b59",
+  "templates/mime.types.erb": "1fcc015f4003319bc1a9e89ecd31d963",
+  "templates/mime.types.orig": "bd837e7b34f5c9b8d89957d0527f0d44",
+  "templates/nginx.conf.erb": "6d1701b08a491214e0d93d5c7944d11b",
+  "templates/nginx.conf.orig": "fcd397a5c84594c1478a5403048e7ba2",
+  "tests/file.pp": "5aeec3105dcaf6ec9a01470d22d85b93",
+  "tests/init.pp": "c0e7a30798dae942957dd3f6ca864246"
+}
