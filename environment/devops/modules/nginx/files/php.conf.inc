@@ -4,7 +4,7 @@ location ~ \.php$ {
     # Don't bother PHP if the file doesn't exist, return the built in
     # 404 page (this also avoids "No input file specified" error pages)
     try_files     $uri =404;
-    include       /etc/nginx/fastcgi.conf;
+    include       /etc/nginx/fastcgi_params;
     fastcgi_pass  fpmbackend;
 }
 

@@ -9,13 +9,7 @@ worker_cpu_affinity <%= @worker_cpu_affinity %>;
 <% if @worker_rlimit_nofile -%>
 worker_rlimit_nofile <%= @worker_rlimit_nofile %>;
 <% end -%>
-<% if @error_log.is_a?(Array) -%>
-<% @error_log.each do |logfile| -%>
-error_log <%= logfile %>;
-<% end -%>
-<% else -%>
 error_log <%= @error_log %>;
-<% end -%>
 pid /var/run/nginx.pid;
 
 events {
@@ -69,9 +63,6 @@ http {
     <%- if @gzip == "on" -%>
     gzip_disable "msie6";
     gzip_min_length <%= @gzip_min_length %>;
-    <%- if @gzip_comp_level -%>
-    gzip_comp_level <%= @gzip_comp_level -%>;
-    <%- end -%>
     <%- if @gzip_proxied -%>
     gzip_proxied <%= @gzip_proxied -%>;
     <%- end -%>
@@ -113,27 +104,6 @@ http {
     <%- if @proxy_buffer_size -%>
     proxy_buffer_size <%= @proxy_buffer_size %>;
     <%- end -%>
-    <%- if @ssl_ciphers -%>
-    ssl_ciphers <%= @ssl_ciphers %>;
-    <%- end -%>
-    <%- if @ssl_protocols -%>
-    ssl_protocols <%= @ssl_protocols %>;
-    <%- end -%>
-    <%- if @ssl_prefer_server_ciphers -%>
-    ssl_prefer_server_ciphers <%= @ssl_prefer_server_ciphers %>;
-    <%- end -%>
-    <%- if @ssl_buffer_size -%>
-    ssl_buffer_size <%= @ssl_buffer_size %>;
-    <%- end -%>
-    <%- if @ssl_dhparam -%>
-    ssl_dhparam <%= @ssl_dhparam %>;
-    <%- end -%>
-    <%- if @ssl_ecdh_curve -%>
-    ssl_ecdh_curve <%= @ssl_ecdh_curve %>;
-    <%- end -%>
-    <%- if @ssl_session_cache -%>
-    ssl_session_cache <%= @ssl_session_cache %>;
-    <%- end -%>
     <%- if @ssl_certificate -%>
     ssl_certificate <%= @ssl_certificate %>;
     <%- end -%>
@@ -157,4 +127,3 @@ http {
 
     <%- end -%>
 }
-
