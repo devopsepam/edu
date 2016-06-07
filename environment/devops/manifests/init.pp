@@ -35,21 +35,24 @@ node default {
 		content => template('nginx/www.example.com.conf.erb'),
 	}
 
-	file { '/var/www' :
-		ensure => directory,
-		owner => nginx,
-		group => nginx,
-		mode => 755,
-	}
-	file { '/var/www/www.example.com' :
-		ensure => directory,
-		owner => nginx,
-		group => nginx,
-		mode => 755,
-	}
-	file { '/var/www/www.example.com/index.php':
-		source => 'puppet:///modules/nginx/index.php',
-		owner => nginx,
-		group => nginx,
+		file { '/var/www' :
+			ensure => directory,
+			owner => nginx,
+			group => nginx,
+			mode => 755,
+			require => Package['nginx'],
+		}
+		file { '/var/www/www.example.com' :
+			ensure => directory,
+			owner => nginx,
+			group => nginx,
+			mode => 755,
+			require => Package['nginx'],
+		}
+		file { '/var/www/www.example.com/index.php':
+			source => 'puppet:///modules/nginx/index.php',
+			owner => nginx,
+			group => nginx,
+			require => Package['nginx'],
 	}
 }
