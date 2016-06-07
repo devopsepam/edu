@@ -22,7 +22,7 @@ node default {
   		listen  => '/var/run/php-fpm-www.sock',
 	require => Package['nginx'],
 	}
-
+  
 	class { '::nginx':
 	# Fix for "upstream sent too big header ..." errors
 		fastcgi_buffers     => '8 8k',
@@ -35,24 +35,24 @@ node default {
 		content => template('nginx/www.example.com.conf.erb'),
 	}
 
-		file { '/var/www' :
-			ensure => directory,
-			owner => nginx,
-			group => nginx,
-			mode => 755,
-			require => Package['nginx'],
-		}
-		file { '/var/www/www.example.com' :
-			ensure => directory,
-			owner => nginx,
-			group => nginx,
-			mode => 755,
-			require => Package['nginx'],
-		}
-		file { '/var/www/www.example.com/index.php':
-			source => 'puppet:///modules/nginx/index.php',
-			owner => nginx,
-			group => nginx,
-			require => Package['nginx'],
+  file { '/var/www' :
+		ensure => directory,
+		owner => nginx,
+		group => nginx,
+  	mode => 755,
+		require => Package['nginx'],
+	}
+	file { '/var/www/www.example.com' :
+		ensure => directory,
+		owner => nginx,
+		group => nginx,
+		mode => 755,
+		require => Package['nginx'],
+	}
+	file { '/var/www/www.example.com/index.php':
+		source => 'puppet:///modules/nginx/index.php',
+		owner => nginx,
+		group => nginx,
+		require => Package['nginx'],
 	}
 }
