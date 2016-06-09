@@ -7,20 +7,29 @@ node default {
 		baseurl => 'http://nginx.org/packages/centos/7/$basearch/',
 		gpgcheck => '0',
 		enabled => '1',
+    before => Package['nginx'],
 	}
-
+  	yumrepo { 'epel':
+	    name => 'epel',
+	    ensure => 'present',
+	    mirrorlist => 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch',
+	    failovermethod => 'priority',
+	    gpgcheck => '0',
+	    enabled => '1',
+	before => Package['phpmyadmin'],
+	}
+  
 	php::ini { '/etc/php.ini':
 	  display_errors => 'On',
 	  memory_limit   => '256M',
 	  date_timezone => 'Europe/Warsaw',
 	}
 	class { 'php::cli': }
-	php::module { [ 'ldap', 'mysql', 'snmp', 'gd', 'xml' ]: }
+	php::module { [ 'ldap', 'mysql', 'snmp', 'gd', 'xml', 'mbstring' ]: }
 
 	include '::php::fpm::daemon'
 	php::fpm::conf { 'www':
   		listen  => '/var/run/php-fpm-www.sock',
-	require => Package['nginx'],
 	}
   
 	class { '::nginx':
@@ -29,30 +38,47 @@ node default {
 		fastcgi_buffer_size => '8k',
 		autoindex => 'on',
 		index => 'index.php',
-		require => yumrepo['nginx'],
 	}
-	nginx::file { 'www.example.com.conf':
-		content => template('nginx/www.example.com.conf.erb'),
+	nginx::file { 'www.devops.com.conf':
+		content => template('nginx/www.devops.com.conf.erb'),
 	}
 
   file { '/var/www' :
 		ensure => directory,
-		owner => nginx,
-		group => nginx,
+		owner => apache,
+		group => apache,
   	mode => 755,
-		require => Package['nginx'],
+    subscribe => Package['nginx'],
 	}
-	file { '/var/www/www.example.com' :
+	file { '/var/www/www.devops.com' :
 		ensure => directory,
-		owner => nginx,
-		group => nginx,
+		owner => apache,
+		group => apache,
 		mode => 755,
-		require => Package['nginx'],
+    subscribe => Package['nginx'],
 	}
-	file { '/var/www/www.example.com/index.php':
+	file { '/var/www/www.devops.com/index.php':
 		source => 'puppet:///modules/nginx/index.php',
-		owner => nginx,
-		group => nginx,
-		require => Package['nginx'],
+		owner => apache,
+		group => apache,
+    subscribe => Package['nginx'],
 	}
+
+  package { 'phpmyadmin':
+    ensure => installed,
+    provider => 'yum',
+    alias => 'phpmyadmin',
+  }
+  file { '/var/www/www.devops.com/pma/':
+    ensure => link,
+    target => '/usr/share/phpMyAdmin/',
+    subscribe => Package['phpmyadmin'],
+  }
+# fix sessions issue for phpMyAdmin
+  file { '/var/lib/php/session':
+    ensure => directory,
+    mode => 755,
+    owner => apache,
+    subscribe => Package['php-fpm'],
+  }
 }
