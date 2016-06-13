@@ -81,4 +81,10 @@ node default {
     owner => apache,
     subscribe => Package['php-fpm'],
   }
+
+  hello::file {'hello.php':
+#  		content => template('hello/hello.php.erb'),
+  		owner => apache,
+  		subscribe => Package['php-fpm'],
+  	}
 }
